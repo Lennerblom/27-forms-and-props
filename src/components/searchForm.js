@@ -15,10 +15,14 @@ export default class SearchForm extends Component {
         handleSearch(e) {
             let search = e.target.value;
             this.setState({search});
+            console.log('search form state: ', this.state);
         }
         handleSubmit(e) {
             e.preventDefault();
-            this.props.searchMethod(this.state.search);
+            let url = `https://www.reddit.com/r/${this.state.search}.json`;
+            console.log('URL: ', url);
+            return url;
+            this.props.searchMethod(url);
         }
         // searchFormLimit(e) {
         //     let limit = e.target.value;
@@ -31,13 +35,13 @@ export default class SearchForm extends Component {
         
         <form onSubmit={this.handleSubmit}>
         <label>enter search</label>
-          <input type="textArea" onChange={this.handleSearch}/>
-          <label>limit search number</label>
-        <input type="textArea" onChange={this.searchFormLimit}/>
+          <input onChange={this.handleSearch}/>
+          {/* <label>limit search number</label>
+        <input type="textArea" onChange={this.searchFormLimit}/> */}
         </form> 
 
         {/* <form>{
-            this.props.reddit.map( (reddit,i) => 
+            this.props.redditList.map( (redditList,i) => 
             <div Key={i}>
               <input
               onChange={this.props.redditLoader}

@@ -1,7 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import superagent from 'superagent';
-
+import {fetchData} from '../lib/utils.js';
 import SearchForm from './searchForm.js';
+import SearchResultList from './searchResultsList.js';
 
 export default class App extends Component {
     constructor(props) {
@@ -11,9 +12,9 @@ export default class App extends Component {
         topicList: [],
         loading: false,
       }
-      this.loadRedditDetails = this.loadRedditDetails.bind(this);
+      //this.loadRedditDetails = this.loadRedditDetails.bind(this);
       this.searchRedditBoard = this.searchRedditBoard.bind(this);
-      this.fetchData = this.fetchData.bind(this);
+      //this.fetchData = this.fetchData.bind(this);
       this.isLoading = this.isLoading.bind(this);
         }
         componentDidUpdate() {
@@ -39,7 +40,7 @@ export default class App extends Component {
         //     const redditBoard = await(this.fetchData(url));
         //     this.setState( Object.assign(...this.state, {redditBoard}) );
         // }
-        // async searchRedditBoard(searchFormBoard) {
+       // async searchRedditBoard(searchFormBoard) {
         //     let url = `https://www.reddit.com/r/${searchFormBoard}.json?limit=${searchFormLimit}`;
         //     const redditBoard = await(this.fetchData(url));
         //     this.setState( Object.assign(...this.state, {redditBoard}) );
@@ -51,7 +52,7 @@ export default class App extends Component {
                 this.setState( Object.assign(...this.state, data) ) 
             );
         }
-        loadRedditList() {
+        loadRedditList(e) {
             return this.fetchData(`https://www.reddit.com/r/summer.json?`)
               .then(redditData => {
                   console.log('WHAT IS HERE', redditData);
@@ -69,8 +70,8 @@ export default class App extends Component {
               );
         }
 
-        searchRedditBoard() {
-            let url = `https://www.reddit.com/r/summer.json`;
+        searchRedditBoard(e) {
+            let url = `https://www.reddit.com/r/${e.target.value}.json`;
             return this.fetchData(url)
             .then( redditBoard => 
               this.setState( Object.assign(...this.state, {redditBoard}) )
@@ -84,6 +85,7 @@ export default class App extends Component {
         //     setState.topic(url);
         // }
         fetchData(url) {
+            console.log('did I get a url: ', url);
             this.isLoading(true);
             return superagent.get(url)
             .then(result => {
@@ -92,13 +94,21 @@ export default class App extends Component {
             })
             .catch(console.error);
         }
+        // load(url) {
+        //     this.setState( Object.assign(...this.state, {loading:true}) );
+        //     return fetchData(url)
+        //       .then(data => {
+        //         this.setState( Object.assign(...this.state, {loading:false}) );
+        //         return data;
+        //       });
+        //   }
+
   render() {
       return (<Fragment>
           <h2>Reddit Search</h2>
           <main className={this.state.loading ? 'loading' : null}>
-              <SearchForm />
-              <h2>{SearchForm.state}</h2>
-              {/* <this.searchRedditBoard value={SearchForm.state}/> */}
+          <SearchForm searchMethod={this.state.search}/>
+              {/* <SearchForm SearchForm value={this.state} onChange={App.searchRedditBoard}/> */}
             
           </main>
           </Fragment>
