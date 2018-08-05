@@ -7,28 +7,20 @@ export default class SearchResultList extends Component {
   constructor(props) {
     super(props);
   }
+RedditList() {
+    this.props.addData.map( (data, i) =>
+{return <li> {data.title}</li>});
+    // this.props.redditList.data.children.map( (redditList,i) => 
+    //         <div Key={i}>
+    console.log("other list", this.props.addData);
+}
 
-  searchRedditBoard() {
-    let url = `https://www.reddit.com/r/${search}.json`;
-    return this.fetchData(url)
-      .then( redditBoard => 
-        this.setState( Object.assign(...this.state, {redditBoard}) )
-      ); 
-  }
-
-  fetchData(url) {
-    this.isLoading(true);
-    return superagent.get(url)
-      .then(result => {
-        this.isLoading(false);
-        return result.body;
-      })
-      .catch(console.error);
-
-  }
   render () {
     return (<Fragment>
         <h2>SearchResultList</h2>
+        <ul>
+            {this.RedditList()}
+        </ul>
         </Fragment>
     )}
 }

@@ -21,7 +21,6 @@ export default class SearchForm extends Component {
             e.preventDefault();
             let url = `https://www.reddit.com/r/${this.state.search}.json`;
             console.log('URL: ', url);
-            return url;
             this.props.searchMethod(url);
         }
         // searchFormLimit(e) {
