@@ -1,19 +1,18 @@
 'use strict';
 import React, {Component, Fragment} from 'react';
-import SearchForm from './searchForm';
-import superagent from 'superagent';
-const search = SearchForm.state;
+
 export default class SearchResultList extends Component {
   constructor(props) {
     super(props);
   }
 RedditList() {
-    this.props.addData.map( (data, i) =>
-{return <li> {data.title}</li>});
-    // this.props.redditList.data.children.map( (redditList,i) => 
-    //         <div Key={i}>
-    console.log("other list", this.props.addData);
-}
+  let mylist = this.props.addData.map( (data, i) => {
+  return <li key={i}><a href={ data.data.title }></a></li><li><a href={ data.data.ups}></a></li>
+  });
+
+  console.log('other list', this.props.addData);
+  return mylist;
+    }
 
   render () {
     return (<Fragment>
@@ -22,5 +21,6 @@ RedditList() {
             {this.RedditList()}
         </ul>
         </Fragment>
-    )}
+    );
+}
 }

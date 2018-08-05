@@ -35,9 +35,10 @@ export default class App extends Component {
               .then(redditData => {
                   console.log('WHAT IS HERE', redditData);
                 let redditList = redditData.data.children;
-                console.log("list", this.state);
+                
                 //this.props.sendData(redditList);
                this.setState({topicList: redditList});
+               console.log("list", this.state);
               });
             }
 
