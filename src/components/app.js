@@ -51,7 +51,9 @@ export default class App extends Component {
                 this.isLoading(false);
                 return result.body
             })
-            .catch(console.error);
+            .catch(error => {
+                //add something to turn border red
+            })
         }
 
   render() {

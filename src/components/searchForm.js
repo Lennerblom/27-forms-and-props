@@ -41,23 +41,9 @@ export default class SearchForm extends Component {
           
         </form> 
         <form onSubmit={this.handlesubmit}>
-        <label>limit search number</label>
+        <label>limit search quantity</label>
           <input type="number" onChange={this.searchFormLimit}/>
         </form>
-
-        {/* <form>{
-            this.props.redditList.map( (redditList,i) => 
-            <div Key={i}>
-              <input
-              onChange={this.props.redditLoader}
-              title = {data.children.data.title}
-              />
-              <label htmlFor={data.children.data.title}>
-              {data.children.data.title}
-              </label>
-            </div>
-            )}
-        </form> */}
         </Fragment>);
   }
 }
