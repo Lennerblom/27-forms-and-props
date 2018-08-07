@@ -1,7 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import superagent from 'superagent';
-
+import {fetchData} from '../lib/utils.js';
 import SearchForm from './searchForm.js';
+import SearchResultList from './searchResultsList.js';
 
 export default class App extends Component {
     constructor(props) {
@@ -11,39 +12,16 @@ export default class App extends Component {
         topicList: [],
         loading: false,
       }
-      this.loadRedditDetails = this.loadRedditDetails.bind(this);
-      this.searchRedditBoard = this.searchRedditBoard.bind(this);
+
+      this.loadRedditList = this.loadRedditList.bind(this);
       this.fetchData = this.fetchData.bind(this);
       this.isLoading = this.isLoading.bind(this);
         }
         componentDidUpdate() {
-            console.log('__STATE__', this.state);
         }
         isLoading(loading) {
             this.setState( Object.assign(...this.state, {loading}) );
         }
-
-        // async componentDidMount() {
-        //     const data = await this.loadRedditList();
-        //     this.setState( Object.assign(...this.state, data) );
-        // }
-       
-        // async loadRedditList() {
-        //     const redditData = await this.fetchData(`https://www.reddit.com/r/${searchFormBoard}.json?`);
-        //     let redditList = redditData.results;
-        //     return {redditList};
-        // }
-        // async loadRedditDetails(e) {
-        //     let url = e.target.value;
-        //     let loading = true;
-        //     const redditBoard = await(this.fetchData(url));
-        //     this.setState( Object.assign(...this.state, {redditBoard}) );
-        // }
-        // async searchRedditBoard(searchFormBoard) {
-        //     let url = `https://www.reddit.com/r/${searchFormBoard}.json?limit=${searchFormLimit}`;
-        //     const redditBoard = await(this.fetchData(url));
-        //     this.setState( Object.assign(...this.state, {redditBoard}) );
-        // }
 
         componentDidMount() {
             this.loadRedditList()
@@ -51,38 +29,16 @@ export default class App extends Component {
                 this.setState( Object.assign(...this.state, data) ) 
             );
         }
-        loadRedditList() {
-            return this.fetchData(`https://www.reddit.com/r/summer.json?`)
+        loadRedditList(url) {
+            return this.fetchData(url)
               .then(redditData => {
-                  console.log('WHAT IS HERE', redditData);
-                let redditList = redditData.results;
-                return {redditList};
+                let redditList = redditData.data.children;
+               this.setState({topicList: redditList});
+
               });
             }
 
-        loadRedditDetails(e) {
-            let url = e.target.value;
-            let loading = true;
-            return this.fetchData(url)
-              .then( redditBoard => 
-                this.setState( Object.assign(...this.state, {redditBoard}) )
-              );
-        }
 
-        searchRedditBoard() {
-            let url = `https://www.reddit.com/r/summer.json`;
-            return this.fetchData(url)
-            .then( redditBoard => 
-              this.setState( Object.assign(...this.state, {redditBoard}) )
-            ); 
-        }
-
-        // GetFormResults() {
-        //     const searchFormLimit = 5;
-        //     let searchFormBoard = SearchForm.state.search;
-        //     let url = `https://www.reddit.com/r/${searchFormBoard}.json?limit=${searchFormLimit}`;
-        //     setState.topic(url);
-        // }
         fetchData(url) {
             this.isLoading(true);
             return superagent.get(url)
@@ -90,16 +46,17 @@ export default class App extends Component {
                 this.isLoading(false);
                 return result.body
             })
-            .catch(console.error);
+            .catch(error => {
+                //TO DO: add something to turn border red
+            })
         }
+
   render() {
       return (<Fragment>
           <h2>Reddit Search</h2>
           <main className={this.state.loading ? 'loading' : null}>
-              <SearchForm />
-              <h2>{SearchForm.state}</h2>
-              {/* <this.searchRedditBoard value={SearchForm.state}/> */}
-            
+          <SearchForm searchMethod={this.loadRedditList}/>
+          <SearchResultList addData={this.state.topicList}/> 
           </main>
           </Fragment>
       );

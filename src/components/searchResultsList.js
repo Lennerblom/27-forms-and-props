@@ -1,12 +1,24 @@
 'use strict';
-import React, {Component} from 'react';
-import Search from './searchForm';
-export default SearchResultList extends Component {
+import React, {Component, Fragment} from 'react';
+
+export default class SearchResultList extends Component {
   constructor(props) {
-      super(props);
+    super(props);
   }
+RedditList() {
+  let mylist = this.props.addData.map( (data, i) => {
+  return <li key={i}><a href={ data.data.url}>url</a>   <a href={ data.data.title}><header>Title: { data.data.title}</header></a>    <a href={ data.data.ups}><p>ups: { data.data.ups}</p></a></li>
+  });
+  return mylist;
+    }
 
   render () {
-    return this.props.resultList;
-  }
+    return (<Fragment>
+        <h2>SearchResultList</h2>
+        <ul>
+            {this.RedditList()}
+        </ul>
+        </Fragment>
+    );
+}
 }
