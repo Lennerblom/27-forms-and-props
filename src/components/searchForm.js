@@ -16,17 +16,14 @@ export default class SearchForm extends Component {
         handleSearch(e) {
             let search = e.target.value;
             this.setState({search});
-            console.log('search form state: ', this.state);
         }
         searchFormLimit(e) {
             let limit = e.target.value;
-            //this.props.searchLimit(limit)
             this.setState({limit});
         }
         handleSubmit(e) {
             e.preventDefault();
             let url = `https://www.reddit.com/r/${this.state.search}.json?limit=${this.state.limit}`;
-            console.log('URL: ', url);
             this.props.searchMethod(url);
         }
       

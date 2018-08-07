@@ -18,7 +18,6 @@ export default class App extends Component {
       this.isLoading = this.isLoading.bind(this);
         }
         componentDidUpdate() {
-            console.log('__STATE__', this.state);
         }
         isLoading(loading) {
             this.setState( Object.assign(...this.state, {loading}) );
@@ -33,18 +32,14 @@ export default class App extends Component {
         loadRedditList(url) {
             return this.fetchData(url)
               .then(redditData => {
-                  console.log('WHAT IS HERE', redditData);
                 let redditList = redditData.data.children;
-                
-                //this.props.sendData(redditList);
                this.setState({topicList: redditList});
-               console.log("list", this.state);
+
               });
             }
 
 
         fetchData(url) {
-            console.log('did I get a url: ', url);
             this.isLoading(true);
             return superagent.get(url)
             .then(result => {
@@ -52,7 +47,7 @@ export default class App extends Component {
                 return result.body
             })
             .catch(error => {
-                //add something to turn border red
+                //TO DO: add something to turn border red
             })
         }
 
